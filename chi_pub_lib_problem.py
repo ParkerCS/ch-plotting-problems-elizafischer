@@ -78,8 +78,10 @@ print("Total visitors:" , total_visitors)
 
 
 ################################GRAPHING#########################################
-total_y = [int(total_visitors)]
-total_x_label = ["Total (Yearly)"]
+total_y = [int(total_visitors), 1353311, 297123, 283611]
+total_x_label = ["Total (Yearly)", "Hardold Washington Library" , "Chinatown Library", "Woodson Regional Library"]
+
+
 
 # Making the bar graph
 total, = plt.bar(np.arange(len(total_y)), total_y, 0.1)
