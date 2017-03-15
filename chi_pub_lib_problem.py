@@ -13,7 +13,6 @@ import matplotlib.patches as mpatches
 import csv
 import numpy as np
 
-
 def split_line(line):
         return re.findall('[A-Za-z0-9]+(?:\'[A-Za-z0-9]+)?', line)
 
@@ -23,43 +22,30 @@ def print_list(list):
         print("{:3}".format(item), end=", ")
     print()
 
-
 lib_list = []
 file = open("chilib_visitors_2016")
-extra_list = []
 reader = csv.reader(file, delimiter='\t')
 for line in reader:
     lib_list.append(line)
-    extra_list.append(line)
-
 
 
 # Taking the labels ("Jan, Feb, etc." off of the list to make the numbers easier to work with.
 headers = lib_list[0]
 lib_list = lib_list[1:]
 print("Lib list: ",end="")
-#print(lib_list)
-
 print()
 print("Headers list: ",end="")
-print(headers)
-print()
 
-
-# Sorting
-# taking out the total visitors from each library location
-#print("SORTED: ", end=" ")
+# Sorting --> taking out the total visitors from each library location
 lib_list.sort(key=itemgetter(-1))
-#print(lib_list)
 print()
-
 
 # Making the items in the list integers
 for i in range(len(lib_list)):
     lib_list[i][-1] = int(lib_list[i][-1])
 
 
-# the actual sorting process of picking out the top three libraries
+# The actual sorting process of picking out the top three libraries
 lib_list.sort(key=itemgetter(-1))
 print()
 print("Top three most visited: " , end=" ")
@@ -70,7 +56,6 @@ print()
 # Separating the values from the top three libraries into a list
 top_three = []
 top_three.append(lib_list[-3:])
-print(top_three)
 
 
 # Building number lists to work with.
@@ -84,8 +69,6 @@ for line in file:
 # Picks out the total visitors YEARLY for each chicago library each year and adds them to total_yearly list.
 for i in range(len(lib_list)):
     total_yearly.append(lib_list[i][-1])
-#print("Total visitors yearly for each library: ",end="")
-#print(total_yearly)
 print()
 
 
@@ -93,94 +76,67 @@ print()
 total_visitors = 0
 for i in range(len(total_yearly)):
     total_visitors += int(total_yearly[i])
-print("Total visitors:" , total_visitors)
+print("Total visitors YEARLY:" , total_visitors)
 
 
 # Finding and printing the TOP THREE visited libraries with all of the data per month
-print("Top three most visited NAMES from greatest to smallest: " , end=" ")
-#print(lib_list)
 numthree = (lib_list[-3:])
 
 names = []
 for name in numthree:
     names.append(name[0])
-#print(names)
 
+#
+total_monthly_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+for lib in lib_list:
+    for month in range(1, (len(total_monthly_list)) - 1):
+        total_monthly_list[month] += int(lib[month + 1]) #lib[month+1]
 
-
-''''''
-# finding the total each month
-jan_tot = []
-feb_tot = []
-mar_tot = []
-apr_tot = []
-may_tot = []
-jun_tot = []
-jul_tot = []
-aug_tot = []
-sep_tot = []
-oct_tot = []
-nov_tot = []
-dec_tot = []
-
-for i in range(len(jan_tot)):
-    jan_tot[i]= int(jan_tot[i])
-
-for i in range(len(lib_list)):
-    jan_tot.append(lib_list[i][1])
-    feb_tot.append(lib_list[i][2])
-    mar_tot.append(lib_list[i][3])
-    apr_tot.append(lib_list[i][4])
-    may_tot.append(lib_list[i][5])
-    jun_tot.append(lib_list[i][6])
-    jul_tot.append(lib_list[i][7])
-    aug_tot.append(lib_list[i][8])
-    sep_tot.append(lib_list[i][9])
-    oct_tot.append(lib_list[i][10])
-    nov_tot.append(lib_list[i][11])
-    dec_tot.append(lib_list[i][12])
-
-jan = 0
-for i in range(len(jan_tot)):
-    jan = jan_tot[0] + jan_tot[i]
-
-print()
-print("Jan List = ", jan_tot)
-print()
-print("Jan =", jan)
+print("Total_monthly_list = ", end=" ")
+print(total_monthly_list)
 ################################GRAPHING#########################################
-# ORDER : Jan tot - dec tot, top 3, total yearly
+month_title = ["LOCATION" , "JANUARY" , "FEBRUARY" , "MARCH" , "APRIL" , "MAY" , "JUNE" , "JULY" , "AUGUST" , "SEPTEMBER" , "OCTOBER" , "NOVEMBER" ,"DECEMBER" , "YTD"]
 
-topthreex = headers[1:12]
+topthreex = month_title[1:12]
 
 topthreey = numthree[2][1:-1]
 topthreey2 = numthree[1][1:-1]
 topthreey3 = numthree[0][1:-1]
-
-#total_y = [int(total_visitors), 1353311, 297123, 283611]
-#total_x_label = [numone, numtwo, numthree, "Total (Yearly)"]
-
+monthlyy = total_monthly_list
 
 # **** Making the bar graph **** #
-chinatown, = plt.plot(np.arange(len(topthreey)), topthreey)
-sulzer, = plt.plot(np.arange(len(topthreey2)), topthreey2)
-harold, = plt.plot(np.arange(len(topthreey3)), topthreey3)
+chinatown, = plt.plot(np.arange(len(topthreey)), topthreey, color= "darkgreen")
+sulzer, = plt.plot(np.arange(len(topthreey2)), topthreey2, color= "orange")
+harold, = plt.plot(np.arange(len(topthreey3)), topthreey3, color= "blue")
+monthly, = plt.plot(np.arange(len(total_monthly_list)), monthlyy, color= "red")
 
+chinatown.set_marker("*")
+chinatown.set_markersize(5)
+sulzer.set_marker("*")
+sulzer.set_markersize(5)
+harold.set_marker("*")
+harold.set_markersize(5)
+monthly.set_marker("*")
+monthly.set_markersize(5)
 
 # Labels the total bar on the x axis
-plt.xticks(np.arange(len(topthreey)), topthreex, rotation=45)
+plt.xticks(np.arange(len(topthreey)), month_title[1:], rotation=45)
 
 # Labels
 plt.title("Graph of Visitation of Chicago Libraries")
 plt.xlabel("Name of Library")
 plt.ylabel("Number of Visitors")
 
-# Details
-#chinatown.set_color("darkgreen")
+# Patches
+chinatown_patch = mpatches.Patch(color = 'darkgreen', label = 'Chinatown Library')
+sulzer_patch = mpatches.Patch(color = 'orange', label = 'Sulzer Regional Library')
+harold_patch = mpatches.Patch(color = 'blue', label = 'Harold Washington Library')
+total_patch = mpatches.Patch(color = 'red', label = 'Total visitors (to all chicago libraries)')
 
-# ************* #
-#plt.axis([0, 1000000, 0, 50]) #(xmin, xmax, ymin, ymax)
+# Adding a key to the graph
+plt.legend(handles= [chinatown_patch, sulzer_patch, harold_patch, total_patch],title = 'Library Name:', framealpha = 0.5, shadow = True)
 
-# Key
+# Limiting the axis
+plt.axis([0,13, 0, 900000]) #(xmin, xmax, ymin, ymax)
 
 plt.show()
