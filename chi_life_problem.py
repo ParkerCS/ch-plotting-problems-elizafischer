@@ -47,7 +47,7 @@ for i in range(len(life_exp)):
     neighborhood_list.append(life_exp[i][1])
 print("Neighborhood names: " , neighborhood_list[1:] , "\n")
 
-# Iterating through and picking out the life expectancy for each neighborhood in 2010
+# Iterating through and picking out the life expectancy for each neighborhood in 2010, 2000 and 1990
 life_exp_2010 = []
 for i in range(1,len(life_exp)):
     life_exp_2010.append(float(life_exp[i][8]))
@@ -69,36 +69,42 @@ print("Life expectancy in 1990, lowest to highest: " , life_exp_1990, "\n")
 plt.figure(tight_layout = True, figsize = [12,5])
 
 #plotting 2010
-line1, = plt.plot(np.arange(len(life_exp_2010)), life_exp_2010, color = "orange")
+line1, = plt.plot(np.arange(len(life_exp_2010)), life_exp_2010, color = "yellow")
 plt.xticks(np.arange(len(life_exp_2010)-1), neighborhood_list[1:], rotation=90)
 line1.set_marker("*")
 line1.set_markersize(5)
 
 # plotting 2000
-line2, = plt.plot(np.arange(len(life_exp_2000)), life_exp_2000, color = "green")
+line2, = plt.plot(np.arange(len(life_exp_2000)), life_exp_2000, color = "blue")
 line2.set_marker("*")
 line2.set_markersize(5)
 
 # Plotting 1990
-line3, = plt.plot(np.arange(len(life_exp_1990)), life_exp_1990, color = "black")
+line3, = plt.plot(np.arange(len(life_exp_1990)), life_exp_1990, color = "pink")
 line3.set_marker("*")
 line3.set_markersize(5)
+
+# Plotting min and max lines
+x1 = 0
+x2 = 76
+minline, = plt.plot((x1, x2), (57.1, 57.1), color ="red")
+minline.set_alpha(0.45)
+maxline, = plt.plot((x1, x2), (85.2, 85.2), color ="red")
+maxline.set_alpha(0.45)
 
 
 # Labeling
 plt.title("Life Expectancy by Chicago Neighborhood")
-plt.xlabel("Neighborhoods")
+plt.xlabel("Neighborhood Name")
 plt.ylabel("Life Expectancy in Years")
 
-# Key
-patch_2010 = mpatches.Patch(color = "orange", label = "2010")
-patch_2000 = mpatches.Patch(color = "green", label = "2000")
-patch_1990 = mpatches.Patch(color = "black", label = "1990")
+# Key / legend
+patch_2010 = mpatches.Patch(color= "yellow", label= "2010")
+patch_2000 = mpatches.Patch(color= "blue", label= "2000")
+patch_1990 = mpatches.Patch(color= "pink", label= "1990")
+min_max_patch = mpatches.Patch(color= "red", label= "Minimum & Maximum")
 
+plt.legend(handles= [patch_2010, patch_2000, patch_1990, min_max_patch],title = 'Life Expectancy by Year:', framealpha = 0.5, shadow = True)
 
-plt.legend(handles = [patch_2010, patch_2000, patch_1990],title = 'Life Expectancy by Year:', framealpha = 0.5, shadow = True)
-
-# Details
-#plt.axis([0, 90, 0, 80]) #(xmin, xmax, ymin, ymax)
 
 plt.show()
