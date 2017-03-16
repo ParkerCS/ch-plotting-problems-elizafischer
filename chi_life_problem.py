@@ -86,9 +86,9 @@ line3.set_markersize(5)
 
 
 # Labeling
-plt.title("2010 Life Expectancy by Chicago Neighborhood")
+plt.title("Life Expectancy by Chicago Neighborhood")
 plt.xlabel("Neighborhoods")
-plt.ylabel("2010 Life Expectancy (years)")
+plt.ylabel("Life Expectancy in Years")
 
 # Key
 patch_2010 = mpatches.Patch(color = "orange", label = "2010")
@@ -96,7 +96,7 @@ patch_2000 = mpatches.Patch(color = "green", label = "2000")
 patch_1990 = mpatches.Patch(color = "black", label = "1990")
 
 
-plt.legend(handles = [patch_2010],title = 'Life Expectancy by Year:', framealpha = 0.5, shadow = True)
+plt.legend(handles = [patch_2010, patch_2000, patch_1990],title = 'Life Expectancy by Year:', framealpha = 0.5, shadow = True)
 
 # Details
 #plt.axis([0, 90, 0, 80]) #(xmin, xmax, ymin, ymax)
